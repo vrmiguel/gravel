@@ -19,9 +19,8 @@ pub fn query_current_dir() -> impl Iterator<Item = BuildSystem> {
 
     let path = env::current_dir().expect("failed to obtain current directory!");
 
-    let walker = WalkDir::new(path).into_iter();
-
-    walker
+    WalkDir::new(path)
+        .into_iter()
         .filter_entry(|e| !is_hidden(e))
         .filter_map(Result::ok)
         .filter_map(check_for_build_system)

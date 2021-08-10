@@ -16,6 +16,20 @@ pub enum BuildSystem {
     Make,
 }
 
+impl BuildSystem {
+    /// The executable that this build system uses
+    pub fn executable(&self) -> &'static str {
+        match self {
+            BuildSystem::Cargo => "cargo",
+            BuildSystem::Maven => "mvn",
+            BuildSystem::QMake => "qmake",
+            BuildSystem::CMake => "cmake",
+            BuildSystem::Node => "npm",
+            BuildSystem::Make => "make",
+        }
+    }
+}
+
 fn check_extension(path: &Path) -> Result<BuildSystem, ()> {
     let extension = path.extension().ok_or(())?;
     match extension {
