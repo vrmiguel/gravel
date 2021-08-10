@@ -1,7 +1,4 @@
-use std::{
-    convert::TryFrom,
-    path::{Path, PathBuf},
-};
+use std::{convert::TryFrom, path::Path};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum BuildSystem {
