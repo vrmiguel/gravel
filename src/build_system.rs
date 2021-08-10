@@ -28,11 +28,12 @@ fn check_extension(path: &Path) -> Result<BuildSystem, ()> {
     }
 }
 
-impl TryFrom<&PathBuf> for BuildSystem {
+impl TryFrom<&Path> for BuildSystem {
     type Error = ();
 
-    fn try_from(path: &PathBuf) -> Result<Self, Self::Error> {
-        match path.as_os_str() {
+    fn try_from(path: &Path) -> Result<Self, Self::Error> {
+        let filename = path.file_name().ok_or(())?;
+        match filename {
             p if p == "Cargo.toml" => Ok(Self::Cargo),
             p if p == "CMakeLists.txt" => Ok(Self::CMake),
             p if p == "pom.xml" => Ok(Self::Maven),
@@ -63,10 +64,12 @@ mod tests {
             "Makefile",
             "makefile",
             "GNUmakefile",
+            "cpp.pro",
+            "maven.pro",
         ]
         .into_iter()
         .map(PathBuf::from)
-        .map(|path| (&path).try_into())
+        .map(|path| path.as_path().try_into())
         .map(Result::unwrap)
         .collect();
 
@@ -79,7 +82,9 @@ mod tests {
                 BuildSystem::Node,
                 BuildSystem::Make,
                 BuildSystem::Make,
-                BuildSystem::Make
+                BuildSystem::Make,
+                BuildSystem::QMake,
+                BuildSystem::QMake
             ]
         );
     }
