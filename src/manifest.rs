@@ -1,22 +1,23 @@
-use std::path::{PathBuf};
+use std::path::PathBuf;
 
 use crate::build_system::BuildSystem;
 
 #[derive(Debug)]
 pub struct Manifest {
     path: PathBuf,
-    build_system: BuildSystem
+    build_system: BuildSystem,
 }
 
 impl Manifest {
     pub fn new(path: PathBuf, build_system: BuildSystem) -> Self {
-        Self {
-            path,
-            build_system 
-        }
+        Self { path, build_system }
     }
 
     pub fn build_system(&self) -> BuildSystem {
         self.build_system.clone()
+    }
+
+    pub fn executable(&self) -> &str {
+        self.build_system.executable()
     }
 }
