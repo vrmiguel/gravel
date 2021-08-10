@@ -1,6 +1,6 @@
 use std::{convert::TryFrom, path::Path};
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum BuildSystem {
     /// File to look for: Cargo.toml
     Cargo,
