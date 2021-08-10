@@ -1,4 +1,7 @@
-use std::{convert::TryFrom, path::PathBuf};
+use std::{
+    convert::TryFrom,
+    path::{Path, PathBuf},
+};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum BuildSystem {
@@ -16,7 +19,7 @@ pub enum BuildSystem {
     Make,
 }
 
-fn check_extension(path: &PathBuf) -> Result<BuildSystem, ()> {
+fn check_extension(path: &Path) -> Result<BuildSystem, ()> {
     let extension = path.extension().ok_or(())?;
     match extension {
         ext if ext == "pro" => Ok(BuildSystem::QMake),
@@ -44,14 +47,14 @@ impl TryFrom<&PathBuf> for BuildSystem {
 
 #[cfg(test)]
 mod tests {
-    use std::{convert::TryFrom, path::PathBuf};
+    use std::path::PathBuf;
 
     use crate::build_system::BuildSystem;
 
     #[test]
     fn parse_build_system_from_file_path() {
         use std::convert::TryInto;
-        
+
         let files: Vec<BuildSystem> = vec![
             "Cargo.toml",
             "CMakeLists.txt",
@@ -66,7 +69,7 @@ mod tests {
         .map(|path| (&path).try_into())
         .map(Result::unwrap)
         .collect();
-        
+
         assert_eq!(
             files,
             vec![
