@@ -14,6 +14,8 @@ pub enum BuildSystem {
     Node,
     /// File to look for: Makefile, makefile or GNUmakefile
     Make,
+    /// File to look for: stack.yaml
+    Stack
 }
 
 impl BuildSystem {
@@ -26,6 +28,7 @@ impl BuildSystem {
             BuildSystem::CMake => "cmake",
             BuildSystem::Node => "npm",
             BuildSystem::Make => "make",
+            BuildSystem::Stack => "stack"
         }
     }
 }
@@ -52,6 +55,7 @@ impl TryFrom<&Path> for BuildSystem {
             p if p == "Makefile" => Ok(Self::Make),
             p if p == "makefile" => Ok(Self::Make),
             p if p == "GNUmakefile" => Ok(Self::Make),
+            p if p == "stack.yaml" => Ok(Self::Stack),
             _ => check_extension(path),
         }
     }

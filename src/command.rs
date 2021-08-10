@@ -14,6 +14,10 @@ impl<'a> From<Manifest> for Usage<'a> {
                 build: "build",
                 run: Some("run"),
             },
+            BuildSystem::Stack => Self {
+                build: "build",
+                run: Some("exec")
+            },
             BuildSystem::Maven => Self {
                 build: "package",
                 // TODO: Check for `<exec.mainClass>` in pom.xml
